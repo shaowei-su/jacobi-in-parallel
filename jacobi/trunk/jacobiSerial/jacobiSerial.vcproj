@@ -171,7 +171,23 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\jacobiSerial.cpp"
+				RelativePath=".\input.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\jacobiSerial_1D.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\jacobiSerial_2D.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\jacobiSerialMain.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\output.cpp"
 				>
 			</File>
 			<File
