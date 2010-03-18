@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jacobiSerial", "jacobiSerial\jacobiSerial.vcproj", "{FDD35786-B3B4-476E-B91B-27D2711455F7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jacobiMPI", "jacobiMPI\jacobiMPI.vcproj", "{7C8FFBA7-561D-404D-B744-3E1E4AA3EC52}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jacobiCUDA", "jacobiCUDA\jacobiCUDA.vcproj", "{9A3505EE-DD08-44CD-BE6B-F55DFC813602}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -17,6 +21,14 @@ Global
 		{FDD35786-B3B4-476E-B91B-27D2711455F7}.Debug|Win32.Build.0 = Debug|Win32
 		{FDD35786-B3B4-476E-B91B-27D2711455F7}.Release|Win32.ActiveCfg = Release|Win32
 		{FDD35786-B3B4-476E-B91B-27D2711455F7}.Release|Win32.Build.0 = Release|Win32
+		{7C8FFBA7-561D-404D-B744-3E1E4AA3EC52}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7C8FFBA7-561D-404D-B744-3E1E4AA3EC52}.Debug|Win32.Build.0 = Debug|Win32
+		{7C8FFBA7-561D-404D-B744-3E1E4AA3EC52}.Release|Win32.ActiveCfg = Release|Win32
+		{7C8FFBA7-561D-404D-B744-3E1E4AA3EC52}.Release|Win32.Build.0 = Release|Win32
+		{9A3505EE-DD08-44CD-BE6B-F55DFC813602}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9A3505EE-DD08-44CD-BE6B-F55DFC813602}.Debug|Win32.Build.0 = Debug|Win32
+		{9A3505EE-DD08-44CD-BE6B-F55DFC813602}.Release|Win32.ActiveCfg = Release|Win32
+		{9A3505EE-DD08-44CD-BE6B-F55DFC813602}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
