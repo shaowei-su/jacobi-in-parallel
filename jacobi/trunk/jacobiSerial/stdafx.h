@@ -13,3 +13,21 @@
 
 
 // TODO: 在此处引用程序需要的其他头文件
+
+//user
+#include <math.h>
+#include <malloc.h>
+#include <windows.h>
+#include <time.h>
+
+
+#define DEFAULT_INPUT_FILE "input.txt"
+
+
+struct boundary
+{
+	double		left;
+	double		up;
+	double		right;
+	double		down;
+};
