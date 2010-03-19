@@ -59,6 +59,7 @@ int input(int argc, char* argv[],
 	{
 		*n = atoi(argv[1]);
 		*epsilon = atof(argv[2]);
+		printf("%s", argv[3]); 
 		*step = atoi(argv[3]);
 		(*b).left = atof(argv[4]);
 		(*b).up = atof(argv[5]);
@@ -89,7 +90,7 @@ char* getOutDir(int n, double epsilon, struct boundary b,
 	char *s = (char *)malloc(sizeof(char) * 128);
 	sprintf(s, "%s_n%de%.2lfs%dlurd%.2lf%.2lf%.2lf%.2lf", 
 		outFile, n, epsilon, step, b.left, b.up, b.right, b.down);
-	//mkdir(s);
+	mkdir(s);
 	return s;
 }
 
@@ -142,7 +143,7 @@ void outLog(int n, double epsilon,
 	}
 	else
 	{
-		fprintf(fp, "Jacobi Serial - %s", outFile);
+		fprintf(fp, "Jacobi Serial - %s\n", outFile);
 		fprintf(fp, "--%s", asctime (timeinfo));
 		fprintf(fp, "--N = %d, Epsilon = %lf, Step = %ld\n", n, epsilon, step);
 		fprintf(fp, "--Boundary - left = %lf, right = %lf, up = %lf, down = %lf\n", 

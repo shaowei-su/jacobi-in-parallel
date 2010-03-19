@@ -20,7 +20,7 @@
 #include <malloc.h>
 #include <windows.h>
 #include <time.h>
-//#include <direct.h>  
+#include <direct.h>  
 
 //********************************************************************************
 //inside-project .h file

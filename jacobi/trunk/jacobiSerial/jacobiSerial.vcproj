@@ -175,15 +175,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\jacobiSerial.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\jacobiSerial_1D.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\jacobiSerial_2D.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\jacobiSerialMain.cpp"
 				>
 			</File>
 			<File
