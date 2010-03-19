@@ -89,7 +89,7 @@ char* getOutDir(int n, double epsilon, struct boundary b,
 	char *s = (char *)malloc(sizeof(char) * 128);
 	sprintf(s, "%s_n%de%.2lfs%dlurd%.2lf%.2lf%.2lf%.2lf", 
 		outFile, n, epsilon, step, b.left, b.up, b.right, b.down);
-	mkdir(s);
+	//mkdir(s);
 	return s;
 }
 
