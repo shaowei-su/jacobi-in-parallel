@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 	int				n;
 	double			epsilon;
 	struct boundary	b;
-	long int		step;
+	long			step;
 	char			*outFile = (char *)malloc(sizeof(char) * 128);
 
 	//input
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 	jacobiSerial_1D(n, epsilon, step, b, outFile);
 
 	//jacobi serial 2D
-	jacobiSerial_2D(n, epsilon, step, b, outFile);
+	//jacobiSerial_2D(n, epsilon, step, b, outFile);
 
 	return 0;
 }

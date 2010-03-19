@@ -2,4 +2,4 @@
 
 //********************************************************************************
 void jacobiSerial_2D(int n, double epsilon, 
-					 long int step, struct boundary b, char *outFile);
+					 long step, struct boundary b, char *outFile);
