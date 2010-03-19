@@ -118,6 +118,7 @@ void jacobiSerialIterationEpsilon_2D(const int n, const double epsilon, int *ste
 	}
 	printf("DONE.\n");
 	return;
+
 }
 
 void jacobiSerialIterationStep_2D(const int n, const double *epsilon, int step, const struct boundary b, double *u, double *w)
