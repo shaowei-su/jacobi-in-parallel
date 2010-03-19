@@ -82,7 +82,9 @@ void jacobiSerial_1D(int n, double epsilon,
 }
 
 //********************************************************************************
-void jacobiSerialIterationEpsilon_2D(const int n, const double epsilon, int *step, const struct boundary b, double *u, double *w)
+void jacobiSerialIterationEpsilon_2D(const int n, const double epsilon, 
+									 int *step, const struct boundary b, 
+									 double *u, double *w)
 {
 	double			*temp;
 	//init data
@@ -90,8 +92,14 @@ void jacobiSerialIterationEpsilon_2D(const int n, const double epsilon, int *ste
 	double			average = (b.left + b.up + b.right + b.down) / 4.0;
 	for(int i = 0; i < n - 1; i++)
 	{
-		u[i * n + n] = b.left; u[i * n + n - 1]= b.right; u[i] = b.up; u[(n - 1) * n + i + 1] = b.down;
-		w[i * n + n] = b.left; w[i * n + n - 1]= b.right; w[i] = b.up; w[(n - 1) * n + i + 1] = b.down;
+		u[i * n + n] = b.left; 
+		u[i * n + n - 1]= b.right; 
+		u[i] = b.up; 
+		u[(n - 1) * n + i + 1] = b.down;
+		w[i * n + n] = b.left; 
+		w[i * n + n - 1]= b.right; 
+		w[i] = b.up; 
+		w[(n - 1) * n + i + 1] = b.down;
 	}
 	for(int i = 1; i < n - 1; i++)
 		for(int j = 1; j < n - 1; j++)
@@ -122,7 +130,9 @@ void jacobiSerialIterationEpsilon_2D(const int n, const double epsilon, int *ste
 
 }
 
-void jacobiSerialIterationStep_2D(const int n, const double *epsilon, int step, const struct boundary b, double *u, double *w)
+void jacobiSerialIterationStep_2D(const int n, const double *epsilon, 
+								  int step, const struct boundary b, 
+								  double *u, double *w)
 {
 }
 
