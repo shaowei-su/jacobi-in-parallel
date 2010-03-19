@@ -117,7 +117,8 @@ void jacobiSerialIterationEpsilon_2D(const int n, const double epsilon,
 		for(int i = 1;i < n - 1; i++)
 			for(int j = 1; j < n - 1; j++)
 			{
-				w[i * n + j] = (u[i * n + j - n] + u[i * n + j + n] + u[i * n + j - 1] + u[i * n + j + 1]) / 4.0;
+				w[i * n + j] = (u[i * n + j - n] + u[i * n + j + n] 
+							+ u[i * n + j - 1] + u[i * n + j + 1]) / 4.0;
 				if (*step % 2 == 0)
 				if(fabs(w[i * n + j] - u[i * n + j]) < epsilon) num++;
 			}
