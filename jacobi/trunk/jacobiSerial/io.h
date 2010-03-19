@@ -18,3 +18,16 @@ int input(int argc, char* argv[],
 //********************************************************************************
 //output
 //********************************************************************************
+
+//get output directory name and creat the directory
+char* getOutDir(int n, double epsilon, struct boundary b, 
+				long step, char *outFile);
+
+
+void outMatrix1DtoF(const double *m, const int n, const char *dir);
+
+
+void outLog(int n, double epsilon, 
+			long step, struct boundary b, 
+			double nTime1, double nTime2, double nTime3, 
+			char *outFile, char *dir);

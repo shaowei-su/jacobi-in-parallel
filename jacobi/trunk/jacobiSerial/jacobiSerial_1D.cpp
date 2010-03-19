@@ -20,7 +20,7 @@ void matrix1DInit(const int n, const struct boundary b, double *m, double *w)
 
 //********************************************************************************
 void jacobiSerialIterationEpsilon_1D(const int n, const double epsilon, 
-									 int *step, const struct boundary b, 
+									 long *step, const struct boundary b, 
 									 double *m, double *w,
 									 double *initTime, double *iterTime)
 {
@@ -28,11 +28,12 @@ void jacobiSerialIterationEpsilon_1D(const int n, const double epsilon,
 	
 	//timer
 	LARGE_INTEGER	nStartCounter, nStopCounter;
+
 	//init data
-	matrix1DInit(n, b, m, w); 
 	printf("--Data initing(%d, %lf).....", n, epsilon);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
+	matrix1DInit(n, b, m, w); 
 	//timer ends
 	QueryPerformanceCounter(&nStopCounter);
 	*initTime = getCostTime(nStartCounter, nStopCounter);
@@ -41,7 +42,7 @@ void jacobiSerialIterationEpsilon_1D(const int n, const double epsilon,
 	printf("--Computing(%d, %lf).....", n, epsilon);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
-	int				num;
+	int				num = 0;
 	int				goal = (n - 2) * (n - 2);
 	*step = 0;
 	while(num < goal)
@@ -51,12 +52,13 @@ void jacobiSerialIterationEpsilon_1D(const int n, const double epsilon,
 		for(int i = 1;i < n - 1; i++)
 			for(int j = 1; j < n - 1; j++)
 			{
-				w[i * n + j] = (u[i * n + j - n] + u[i * n + j + n] 
-								+ u[i * n + j - 1] + u[i * n + j + 1]) / 4.0;
-				//if (*step % 2 == 0)
-				if(fabs(w[i * n + j] - u[i * n + j]) < epsilon) num++;
+				w[i * n + j] = (m[i * n + j - n] + m[i * n + j + n] 
+								+ m[i * n + j - 1] + m[i * n + j + 1]) / 4.0;
+				if (*step % JUMP == 0)
+					if(fabs(w[i * n + j] - m[i * n + j]) < epsilon) 
+						num++;
 			}
-		temp = u; u = w; w = temp;
+		temp = m; m = w; w = temp;
 	}
 	//timer ends
 	QueryPerformanceCounter(&nStopCounter);
@@ -66,10 +68,23 @@ void jacobiSerialIterationEpsilon_1D(const int n, const double epsilon,
 	return;
 }
 
+
+//********************************************************************************
+double getEpsilon(const int n, double *m, double *w)
+{
+	double ep = 0;
+	for(int i = 1; i < n - 1; i++)
+		for(int j = 1; j < n - 1; j++)			
+			if(fabs(w[i * n + j] - m[i * n + j]) < ep) 
+				ep = fabs(w[i * n + j] - m[i * n + j]);
+	return ep;
+}
+
 //********************************************************************************
 void jacobiSerialIterationStep_1D(const int n, double *epsilon, 
-								  const int step, const struct boundary b, 
-								  double *u, double *w)
+								  const long step, const struct boundary b, 
+								  double *m, double *w,
+								  double *initTime, double *iterTime)
 {
 	double			*temp;
 	
@@ -77,37 +92,27 @@ void jacobiSerialIterationStep_1D(const int n, double *epsilon,
 	LARGE_INTEGER	nStartCounter, nStopCounter;
 
 	//init data
-	printf("--Data initing(%d, %lf).....", n, epsilon);
+	printf("--Data initing(%d, %d).....", n, step);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
-	double			average = (b.left + b.up + b.right + b.down) / 4.0;
-	for(int i = 0; i < n - 1; i++)
-	{
-		u[i * n + n]			= w[i * n + n]			= b.left; 
-		u[i * n + n - 1]		= w[i * n + n - 1]		= b.right; 
-		u[i]					= w[i]					= b.up; 
-		u[n * n - n + i + 1]	= w[n * n - n + i + 1]	= b.down;
-	}
-
-	for(int i = 1; i < n - 1; i++)
-		for(int j = 1; j < n - 1; j++)
-			u[i * n + j] = w[i * n + j] = average;
+	matrix1DInit(n, b, m, w); 
 	//timer ends
 	QueryPerformanceCounter(&nStopCounter);
 	*initTime = getCostTime(nStartCounter, nStopCounter);
 	printf("Done.\n");
 	//iteration
-	printf("--Computing(%d, %lf).....", n, epsilon);
+	printf("--Computing(%d, %step).....", n, step);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
-	for( int i = 0; i < step; i++)
+	for( int k = 0; k < step; k++)
 	{
 		for(int i = 1;i < n - 1; i++)
 			for(int j = 1; j < n - 1; j++)
-				w[i * n + j] = (u[i * n + j - n] + u[i * n + j + n] 
-								+ u[i * n + j - 1] + u[i * n + j + 1]) / 4.0;
-		temp = u; u = w; w = temp;
+				w[i * n + j] = (m[i * n + j - n] + m[i * n + j + n] 
+								+ m[i * n + j - 1] + m[i * n + j + 1]) / 4.0;
+		temp = m; m = w; w = temp;
 	}
+	*epsilon = getEpsilon(n, m, w);
 	//timer ends
 	QueryPerformanceCounter(&nStopCounter);
 	*iterTime = getCostTime(nStartCounter, nStopCounter);
@@ -118,12 +123,15 @@ void jacobiSerialIterationStep_1D(const int n, double *epsilon,
 
 //********************************************************************************
 void jacobiSerial_1D(int n, double epsilon, 
-					 long int step, struct boundary b, char *outFile)
+					 long step, struct boundary b, char *outFile)
 {
+	printf("Jacobi Serial 1D -\n");
+	printf("--n=%d, e=%lf, step=%ld, LURD: %lf, %lf, %lf, %lf\n",
+		n, epsilon, step, b.left, b.up, b.right, b.down);
 	//more paramenters
 	double			*m = (double *)malloc(sizeof(double) * n * n);
 	double			*w = (double *)malloc(sizeof(double) * n * n);
-	char			*resultFile;
+	char			*outDir;
 
 	//timer
 	LARGE_INTEGER	nStartCounter, nStopCounter;
@@ -132,26 +140,35 @@ void jacobiSerial_1D(int n, double epsilon,
 	//jacobi serial 1D solution
 	if (epsilon == 0)
 	{
-		printf("Jacobi Serial 1D - Epsilon mode\n");
-		jacobiSerialIterationEpsilon_2D(n, epsilon, &step, 
-										b, m, w, &nTime1, &nTime2);	
+		printf("--Epsilon mode\n");
+		jacobiSerialIterationEpsilon_1D(n, epsilon, &step, 
+										b, m, w, &nTime1, &nTime2);
+		printf("--Step = %ld", step);
 	}
 	else 
 	{
-		printf("Jacobi Serial 1D - Step mode\n");
-		jacobiSerialIterationStep_2D(n, &epsilon, step,
-										b, m, w, &nTime1, &nTime2);	
+		printf("--Step mode\n");
+		jacobiSerialIterationStep_1D(n, &epsilon, step,
+										b, m, w, &nTime1, &nTime2);
+		printf("--Epsilon = %lf", epsilon);	
 	}
-
+	printf("--Result outputing...");
+	outDir = getOutDir(n, epsilon, b, step, outFile);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
 	//output result
-	outResultFilename = getOutResultFilename(n, epsilon, b, step, outFilename);
-	ok = outputDoubleMatrixtoFile(matrix, n, outResultFilename);
+	outMatrix1DtoF(m, n, outDir);
 	//timer2 ends
 	QueryPerformanceCounter(&nStopCounter);
 	//get time
 	nTime3 = getCostTime(nStartCounter, nStopCounter);
+	printf("Done.\n");
+
+	printf("--(Time/s)Init=%lf, Computing=%lf, Data-saving=%lf, Total=%lf\n", 
+		nTime1, nTime2, nTime3, nTime1 + nTime2 + nTime3);
+
+	outLog(n, epsilon, step, b, nTime1, nTime2, nTime3, outFile, outDir);
+
 
 	return;
 }

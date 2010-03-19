@@ -3,15 +3,15 @@
 
 //********************************************************************************
 void jacobiSerialIterationEpsilon_2D(const int n, const double epsilon, 
-									 int *step, const struct boundary b, 
+									 long *step, const struct boundary b, 
 									 double *u, double *w)
 {
 
 }
 
 //********************************************************************************
-void jacobiSerialIterationStep_2D(const int n, const double *epsilon, 
-								  int step, const struct boundary b, 
+void jacobiSerialIterationStep_2D(const int n, double *epsilon, 
+								  const long step, const struct boundary b, 
 								  double *u, double *w)
 {
 
@@ -19,6 +19,6 @@ void jacobiSerialIterationStep_2D(const int n, const double *epsilon,
 
 //********************************************************************************
 void jacobiSerial_2D(int n, double epsilon, 
-					 long int step, struct boundary b, char *outFile)
+					 const long step, struct boundary b, char *outFile)
 {
 }
