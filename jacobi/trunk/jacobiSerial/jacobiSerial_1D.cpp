@@ -101,7 +101,7 @@ void jacobiSerialIterationStep_1D(const int n, double *epsilon,
 	*initTime = getCostTime(nStartCounter, nStopCounter);
 	printf("Done.\n");
 	//iteration
-	printf("--Computing(%d, %step).....", n, step);
+	printf("--Computing(%d, %d).....", n, step);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
 	for( int k = 0; k < step; k++)
@@ -138,7 +138,7 @@ void jacobiSerial_1D(int n, double epsilon,
 	double			nTime1, nTime2, nTime3;
 
 	//jacobi serial 1D solution
-	if (epsilon == 0)
+	if (epsilon != 0)
 	{
 		printf("--Epsilon mode\n");
 		jacobiSerialIterationEpsilon_1D(n, epsilon, &step, 
