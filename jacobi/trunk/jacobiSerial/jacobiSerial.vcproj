@@ -171,7 +171,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\input.cpp"
+				RelativePath=".\common.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\io.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\jacobiSerial.cpp"
 				>
 			</File>
 			<File
@@ -180,14 +188,6 @@
 			</File>
 			<File
 				RelativePath=".\jacobiSerial_2D.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\jacobiSerialMain.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\output.cpp"
 				>
 			</File>
 			<File
@@ -216,6 +216,22 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\common.h"
+				>
+			</File>
+			<File
+				RelativePath=".\io.h"
+				>
+			</File>
+			<File
+				RelativePath=".\jacobiSerial_1D.h"
+				>
+			</File>
+			<File
+				RelativePath=".\jacobiSerial_2D.h"
+				>
+			</File>
 			<File
 				RelativePath=".\stdafx.h"
 				>
