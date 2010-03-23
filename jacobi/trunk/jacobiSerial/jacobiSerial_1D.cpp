@@ -70,12 +70,12 @@ void jacobiSerialIterationEpsilon_1D(const int n, const double epsilon,
 
 
 //********************************************************************************
-double getEpsilon(const int n, double *m, double *w)
+double getEpsilon_1D(const int n, double *m, double *w)
 {
 	double ep = 0;
 	for(int i = 1; i < n - 1; i++)
 		for(int j = 1; j < n - 1; j++)			
-			if(fabs(w[i * n + j] - m[i * n + j]) < ep) 
+			if(fabs(w[i * n + j] - m[i * n + j]) > ep) 
 				ep = fabs(w[i * n + j] - m[i * n + j]);
 	return ep;
 }
@@ -112,7 +112,7 @@ void jacobiSerialIterationStep_1D(const int n, double *epsilon,
 								+ m[i * n + j - 1] + m[i * n + j + 1]) / 4.0;
 		temp = m; m = w; w = temp;
 	}
-	*epsilon = getEpsilon(n, m, w);
+	*epsilon = getEpsilon_1D(n, m, w);
 	//timer ends
 	QueryPerformanceCounter(&nStopCounter);
 	*iterTime = getCostTime(nStartCounter, nStopCounter);
@@ -126,7 +126,7 @@ void jacobiSerial_1D(int n, double epsilon,
 					 long step, struct boundary b, char *outFile)
 {
 	printf("Jacobi Serial 1D -\n");
-	printf("--n=%d, e=%lf, step=%ld, LURD: %lf, %lf, %lf, %lf\n",
+	printf("--n=%d, e=%lf, step=%ld\nLURD: %lf, %lf, %lf, %lf\n",
 		n, epsilon, step, b.left, b.up, b.right, b.down);
 	//more paramenters
 	double			*m = (double *)malloc(sizeof(double) * n * n);
@@ -168,7 +168,6 @@ void jacobiSerial_1D(int n, double epsilon,
 		nTime1, nTime2, nTime3, nTime1 + nTime2 + nTime3);
 
 	outLog(n, epsilon, step, b, nTime1, nTime2, nTime3, outFile, outDir);
-
 
 	return;
 }
