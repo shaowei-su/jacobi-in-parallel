@@ -122,6 +122,32 @@ void outMatrix1DtoF(const double *m, const int n, const char *dir)
 
 //********************************************************************************
 //
+void outMatrix2DtoF(double **m, const int n, const char *dir)
+{
+	char *filename = (char *)malloc(sizeof(char) * 256);
+	sprintf(filename, "%s\\%s_m.txt", dir, dir);
+	
+	FILE *fp;
+	if((fp = fopen(filename, "at")) == NULL)
+	{
+        printf("cannot open %s \n", filename);
+		return;
+	}
+	else
+	{
+		for(int i = 0; i < n; i++)		
+		{
+			for(int j = 0; j < n; j++)			
+				fprintf(fp, "%lf ", m[i][j]);
+			fprintf(fp, "\n");
+		}
+		fclose(fp);
+	}
+	return;
+}
+
+//********************************************************************************
+//
 void outLog(int n, double epsilon, 
 			long step, struct boundary b, 
 			double nTime1, double nTime2, double nTime3, 
