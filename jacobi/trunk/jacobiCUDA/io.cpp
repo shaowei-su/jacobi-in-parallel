@@ -59,7 +59,7 @@ int input(int argc, char* argv[],
 	{
 		*n = atoi(argv[1]);
 		*epsilon = atof(argv[2]);
-		printf("%s", argv[3]); 
+		//printf("%s", argv[3]); 
 		*step = atoi(argv[3]);
 		(*b).left = atof(argv[4]);
 		(*b).up = atof(argv[5]);
@@ -169,7 +169,7 @@ void outLog(int n, double epsilon,
 	}
 	else
 	{
-		fprintf(fp, "Jacobi Serial - %s\n", outFile);
+		fprintf(fp, "Jacobi CUDA - %s\n", outFile);
 		fprintf(fp, "--%s", asctime (timeinfo));
 		fprintf(fp, "--N = %d, Epsilon = %lf, Step = %ld\n", n, epsilon, step);
 		fprintf(fp, "--Boundary - left = %lf, right = %lf, up = %lf, down = %lf\n", 

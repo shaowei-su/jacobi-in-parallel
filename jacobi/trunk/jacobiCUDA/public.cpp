@@ -11,3 +11,11 @@ double getCostTime(LARGE_INTEGER start, LARGE_INTEGER end)
 						/ nFrequency.QuadPart;
 	return time / MUL;
 }
+
+
+//********************************************************************************
+int getQuotient(int dividend, int divsor)
+{
+	int quotient = dividend / divsor;
+	return quotient * divsor == dividend ? quotient : quotient + 1;
+}

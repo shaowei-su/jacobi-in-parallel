@@ -44,4 +44,5 @@ struct boundary
 	double		up;
 	double		right;
 	double		down;
+	double		averageValue;
 };

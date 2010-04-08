@@ -125,19 +125,17 @@ void jacobiSerialIterationStep_2D(const int n, double *epsilon,
 void jacobiSerial_2D(int n, double epsilon, 
 					 long step, struct boundary b, char *outFile)
 {
-	printf("Jacobi Serial 1D -\n");
+	printf("Jacobi Serial 2D -\n");
 	printf("--n=%d, e=%lf, step=%ld\nLURD: %lf, %lf, %lf, %lf\n",
 		n, epsilon, step, b.left, b.up, b.right, b.down);
 	//more paramenters
 	double			**m = (double **)malloc(sizeof(double *) * n);
 	double			**w = (double **)malloc(sizeof(double *) * n);
-	char			*outDir;
 	for(int i = 0; i < n; i++)
 	{
 		m[i] = (double *)malloc(sizeof(double) * n);
 		w[i] = (double *)malloc(sizeof(double) * n);
 	}
-
 
 	//timer
 	LARGE_INTEGER	nStartCounter, nStopCounter;
@@ -159,7 +157,7 @@ void jacobiSerial_2D(int n, double epsilon,
 		printf("--Epsilon = %lf", epsilon);	
 	}
 	printf("--Result outputing...");
-	outDir = getOutDir(n, epsilon, b, step, outFile);
+	char			*outDir = getOutDir(n, epsilon, b, step, outFile);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
 	//output result
