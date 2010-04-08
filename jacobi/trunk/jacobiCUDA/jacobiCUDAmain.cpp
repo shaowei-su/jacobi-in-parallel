@@ -1,10 +1,8 @@
-// jacobiSerial.cpp : 定义控制台应用程序的入口点。
-//
 
 #include "stdafx.h"
 
-//********************************************************************************
-int main(int argc, char* argv[])
+//*****************************************************************************
+int main(int argc, char** argv)
 {
 	//paramenters
 	int				n;
@@ -22,15 +20,14 @@ int main(int argc, char* argv[])
 	}
 
 	b.averageValue = (b.left + b.up + b.right + b.down) / 4;
-
+	
 	//jacobi serial 1D
-	jacobiSerial_1D(n, epsilon, step, b, outFile);
+	jacobiCUDA_1D(argc, argv, n, epsilon, step, b, outFile);
 
 	//jacobi serial 2D
-	//jacobiSerial_2D(n, epsilon, step, b, outFile);
+	//jacobiCUDA_2D(n, epsilon, step, b, outFile);
 
 	getchar();
 
 	return 0;
 }
-
