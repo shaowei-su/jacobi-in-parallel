@@ -346,12 +346,52 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\input.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\output.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\serialJacobi.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\stdafx.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="头文件"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\cudaJacobi.h"
+				>
+			</File>
+			<File
+				RelativePath=".\input.h"
+				>
+			</File>
+			<File
+				RelativePath=".\output.h"
+				>
+			</File>
+			<File
+				RelativePath=".\serialJacobi.h"
+				>
+			</File>
+			<File
+				RelativePath=".\stdafx.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="资源文件"
@@ -360,11 +400,11 @@
 			>
 		</Filter>
 		<File
-			RelativePath=".\ReadMe.txt"
+			RelativePath=".\cudaJacobi.cu"
 			>
 		</File>
 		<File
-			RelativePath=".\sample.cu"
+			RelativePath=".\ReadMe.txt"
 			>
 		</File>
 	</Files>
