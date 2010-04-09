@@ -5,8 +5,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jacobiSerial", "jacobiSeria
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jacobiMPI", "jacobiMPI\jacobiMPI.vcproj", "{7C8FFBA7-561D-404D-B744-3E1E4AA3EC52}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jacobiCUDA", "jacobiCUDA\jacobiCUDA.vcproj", "{DB577765-9602-4040-B3BB-1FD59074C5C1}"
-EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -65,26 +63,6 @@ Global
 		{7C8FFBA7-561D-404D-B744-3E1E4AA3EC52}.Release|Win32.ActiveCfg = Release|Win32
 		{7C8FFBA7-561D-404D-B744-3E1E4AA3EC52}.Release|Win32.Build.0 = Release|Win32
 		{7C8FFBA7-561D-404D-B744-3E1E4AA3EC52}.Release|x64.ActiveCfg = Release|Win32
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.Debug|Mixed Platforms.Build.0 = Debug|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.Debug|Win32.ActiveCfg = Debug|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.Debug|x64.ActiveCfg = Debug|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.Debug|x64.Build.0 = Debug|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.EmuDebug|Mixed Platforms.ActiveCfg = EmuDebug|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.EmuDebug|Mixed Platforms.Build.0 = EmuDebug|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.EmuDebug|Win32.ActiveCfg = EmuDebug|Win32
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.EmuDebug|x64.ActiveCfg = EmuDebug|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.EmuDebug|x64.Build.0 = EmuDebug|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.EmuRelease|Mixed Platforms.ActiveCfg = EmuRelease|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.EmuRelease|Mixed Platforms.Build.0 = EmuRelease|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.EmuRelease|Win32.ActiveCfg = EmuRelease|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.EmuRelease|x64.ActiveCfg = EmuRelease|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.EmuRelease|x64.Build.0 = EmuRelease|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.Release|Mixed Platforms.ActiveCfg = Release|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.Release|Mixed Platforms.Build.0 = Release|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.Release|Win32.ActiveCfg = Release|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.Release|x64.ActiveCfg = Release|x64
-		{DB577765-9602-4040-B3BB-1FD59074C5C1}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
