@@ -138,7 +138,7 @@ void jacobiCUDAIterationEpsilon_1D(const int n, const double epsilon,
 	//timer
 	LARGE_INTEGER	nStartCounter, nStopCounter;	
 	//init data
-	printf("--Data initing(%d, %lf).....", n, epsilon);
+	printf("--Data initing(n=%d, epsilon=%lf).....", n, epsilon);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
 	//init
@@ -148,7 +148,7 @@ void jacobiCUDAIterationEpsilon_1D(const int n, const double epsilon,
 	*initTime = getCostTime(nStartCounter, nStopCounter);
 	printf("Done.\n");
 	//iteration
-	printf("--Computing(%d, %lf).....", n, epsilon);
+	printf("--Computing(n=%d, epsilon=%lf).....", n, epsilon);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
 	*step = 0;
@@ -193,7 +193,7 @@ void jacobiCUDAIterationStep_1D(const int n, double *epsilon,
 	//timer
 	LARGE_INTEGER	nStartCounter, nStopCounter;	
 	//init data
-	printf("--Data initing(%d, %lf).....", n, epsilon);
+	printf("--Data initing(n=%d, step=%d).....", n, step);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
 	//init
@@ -223,7 +223,7 @@ void jacobiCUDAIterationStep_1D(const int n, double *epsilon,
 	*initTime = getCostTime(nStartCounter, nStopCounter);
 	printf("Done.\n");
 	//iteration
-	printf("--Computing(%d, %lf).....", n, epsilon);
+	printf("--Computing(n=%d, step=%d.....", n, epsilon);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
 	// setup execution parameters	
