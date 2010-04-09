@@ -32,7 +32,7 @@
 //constant variable
 #define DEFAULT_INPUT_FILE	"input.txt"		//default input .txt filename
 #define MUL					100000			//time accuracy control numer
-#define JUMP				1				//check epsilon every JUMP Iterations
+#define JUMP				100				//check epsilon every JUMP Iterations
 
 //********************************************************************************
 //structure define
