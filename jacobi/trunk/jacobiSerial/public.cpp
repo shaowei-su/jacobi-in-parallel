@@ -10,4 +10,5 @@ double getCostTime(LARGE_INTEGER start, LARGE_INTEGER end)
 	double time = (double)MUL * (end.QuadPart - start.QuadPart) 
 						/ nFrequency.QuadPart;
 	return time / MUL;
+
 }
