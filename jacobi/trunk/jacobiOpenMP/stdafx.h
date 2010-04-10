@@ -20,15 +20,15 @@
 #include <malloc.h>
 #include <windows.h>
 #include <time.h>
-#include <direct.h>  
-#include "mpi.h"
+#include <direct.h>
+#include "omp.h"
 
 //********************************************************************************
 //inside-project .h file
 #include "public.h"
 #include "io.h"
-//#include "jacobiSerial_1D.h"
-//#include "jacobiSerial_2D.h"
+#include "jacobiOMP_1D.h"
+#include "jacobiOMP_2D.h"
 
 //********************************************************************************
 //constant variable
@@ -46,4 +46,4 @@ struct boundary
 	double		right;
 	double		down;
 	double		averageValue;
-}
+};

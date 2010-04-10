@@ -169,7 +169,7 @@ void outLog(int n, double epsilon,
 	}
 	else
 	{
-		fprintf(fp, "Jacobi CUDA - %s\n", outFile);
+		fprintf(fp, "Jacobi - %s\n", outFile);
 		fprintf(fp, "--%s", asctime (timeinfo));
 		fprintf(fp, "--N = %d, Epsilon = %lf, Step = %ld\n", n, epsilon, step);
 		fprintf(fp, "--Boundary - left = %lf, right = %lf, up = %lf, down = %lf\n", 
