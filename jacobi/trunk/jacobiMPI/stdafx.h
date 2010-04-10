@@ -7,8 +7,16 @@
 
 #include "targetver.h"
 
+#include "mpi.h"
+
 #include <stdio.h>
 #include <tchar.h>
+
+#include <math.h>
+
+#include "windows.h"
+//#include "omp.h"
+
 
 
 
