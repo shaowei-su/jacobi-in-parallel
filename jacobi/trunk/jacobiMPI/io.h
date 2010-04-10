@@ -10,7 +10,7 @@
 //			after command;(1 argument)
 //	way 3: read atguments directly from arguments.(9 arguments)
 int input(int argc, char* argv[], 
-		  int *n, double *epsilon, long int *step, struct boundary *b, 
+		  int *n, double *epsilon, long *step, struct boundary *b,
 		  char *outFile);
 
 

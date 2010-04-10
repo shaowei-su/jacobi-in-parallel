@@ -11,14 +11,14 @@ void getLocalJob(const int n,
 	if (nodeIndex < jobLeft)
 	{
 		*jobStartingPoint	= nodeIndex * (jobSize + 1) + 1;
-		*jobEnd				= (myid + 1) * (task + 1) + 1;
+		*jobEnd				= (nodeIndex + 1) * (jobSize + 1) + 1;
 	}
 	else
 	{
 		*jobStartingPoint	= jobLeft + nodeIndex * jobSize + 1;
 		*jobEnd				= jobLeft + (nodeIndex + 1) * jobSize + 1;
 	}
-	return;
+	//return;
 }
 
 //*****************************************************************************
@@ -39,7 +39,7 @@ void matrix1DInit(const int n, const struct boundary b,
 	return;
 }
 
-void rowDataIteration(const int n, const long step
+void rowDataIteration(const int n, const long step,
 					  const double epsilon, const int rowIndex,
 					  double *m, double *w, int *localCount)
 {
@@ -76,7 +76,11 @@ void jacobiMPIIterationEpsilon_1D(const int n, const double epsilon,
 	LARGE_INTEGER	nStartCounter, nStopCounter;
 
 	//init data
-	printf("--Data initing(%d, %lf).....", n, epsilon);
+	if (nodeIndex == 0) 
+	{
+		fprintf(stdout, "--Data initing(%d, %lf).....", n, epsilon);
+		fflush(stdout);
+	}
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
 	//set job for local node
@@ -86,17 +90,25 @@ void jacobiMPIIterationEpsilon_1D(const int n, const double epsilon,
 	//timer ends
 	QueryPerformanceCounter(&nStopCounter);
 	*initTime = getCostTime(nStartCounter, nStopCounter);
-	printf("Done.\n");
+	if (nodeIndex == 0) 
+	{
+		fprintf(stdout, "Done.\n");
+		fflush(stdout);
+	}
 	//iteration
-	printf("--Computing(%d, %lf).....", n, epsilon);
+	if (nodeIndex == 0) 
+	{
+		fprintf(stdout, "--Computing(%d, %lf).....", n, epsilon);
+		fflush(stdout);
+	}
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
 	//MPI Synchronous parameters
 	MPI_Status		statusPrevious, statusNext;
-	MPI_Request		requestSendPrevious, requestSendNext,
+	MPI_Request		requestSendPrevious, requestSendNext;
 	MPI_Request		requestReceivePrevious, requestReceiveNext;
 	//iteration parameters
-	int				localCount, totalCount;
+	int				localCount, totalCount = 0;
 	int				countGoal = (n - 2) * (n - 2);
 	*step = 0;
 	while(totalCount < countGoal)
@@ -109,33 +121,31 @@ void jacobiMPIIterationEpsilon_1D(const int n, const double epsilon,
 			//Next
 			if (nodeIndex != nodeCount - 1)
 			{
-				MPI_Isend(m[jobEnd - 1], n, MPI_DOUBLE, 
-					nodeIndex + 1, 0, MPI_COMM_WORLD, &requestSendNext);
-				MPI_Irecv(m[jobEnd], n, MPI_DOUBLE, 
-					nodeIndex + 1, 1, MPI_COMM_WORLD, &requestReceiveNext);
+				MPI_Isend(m + jobEnd * n - n, n, MPI_DOUBLE, nodeIndex + 1, 0, MPI_COMM_WORLD, &requestSendNext);
+				MPI_Irecv(m + jobEnd * n, n, MPI_DOUBLE, nodeIndex + 1, 1, MPI_COMM_WORLD, &requestReceiveNext);
 			}
 			//Previous
 			if (nodeIndex != 0)
 			{
-				MPI_Isend(m[jobStartingPoint], n, MPI_DOUBLE,
+				MPI_Isend(m + jobStartingPoint * n, n, MPI_DOUBLE,
 					nodeIndex - 1, 1, MPI_COMM_WORLD, &requestSendPrevious);
-				MPI_Irecv(m[jobStartingPoint - 1], n , MPI_DOUBLE,
+				MPI_Irecv(m + jobStartingPoint * n - n, n , MPI_DOUBLE,
 					nodeIndex - 1, 0, MPI_COMM_WORLD, &requestReceivePrevious);				
 			}
 		}
 		else
 		{
 			//Previous
-			MPI_Irecv(m[jobStartingPoint - 1], n, MPI_DOUBLE, 
+			MPI_Irecv(m + jobStartingPoint * n - n, n, MPI_DOUBLE, 
 				nodeIndex - 1, 0, MPI_COMM_WORLD, &requestReceivePrevious);
-			MPI_Isend(m[jobStartingPoint], n, MPI_DOUBLE, 
+			MPI_Isend(m + jobStartingPoint * n, n, MPI_DOUBLE, 
 				nodeIndex - 1, 1, MPI_COMM_WORLD, &requestSendPrevious);
 			//Next			
 			if (nodeIndex != nodeCount - 1)
 			{				
-				MPI_Irecv(m[jobEnd], n, MPI_DOUBLE, 
+				MPI_Irecv(m + jobEnd * n, n, MPI_DOUBLE, 
 					nodeIndex + 1, 1, MPI_COMM_WORLD, &requestSendNext);
-				MPI_Isend(m[jobEnd - 1], n, MPI_DOUBLE, 
+				MPI_Isend(m + jobEnd * n - n, n, MPI_DOUBLE, 
 					nodeIndex + 1, 0, MPI_COMM_WORLD, &requestReceiveNext);
 			}
 		}
@@ -154,7 +164,7 @@ void jacobiMPIIterationEpsilon_1D(const int n, const double epsilon,
 			rowDataIteration(n, *step, epsilon, rowIndex, m, w, &localCount);
 			MPI_Wait(&requestSendNext, &statusNext);
 		}
-		else if (myid==num_processor-1)
+		else if (nodeIndex == nodeCount - 1)
 		{
 			rowIndex = jobEnd - 1;
 			rowDataIteration(n, *step, epsilon, rowIndex, m, w, &localCount);
@@ -184,18 +194,35 @@ void jacobiMPIIterationEpsilon_1D(const int n, const double epsilon,
 	//timer ends
 	QueryPerformanceCounter(&nStopCounter);
 	*iterTime = getCostTime(nStartCounter, nStopCounter);
-	printf("Done.\n");
+	if (nodeIndex == 0) 
+	{
+		fprintf(stdout, "Done.\n");
+		fflush(stdout);
+	}
 
 	return;
 }
 
 //*****************************************************************************
-void jacobiMPI_1D(int n, double epsilon, 
+void jacobiMPI_1D(int argc, char* argv[],
+				  int n, double epsilon, 
 				  long step, struct boundary b, char *outFile)
 {
-	printf("Jacobi MPI 1D -\n");
-	printf("--n=%d, e=%lf, step=%ld\n--LURD: %lf, %lf, %lf, %lf\n",
-		n, epsilon, step, b.left, b.up, b.right, b.down);
+	MPI_Init(&argc,&argv);
+	int				nodeIndex;
+	MPI_Comm_rank(MPI_COMM_WORLD, &nodeIndex);
+
+	if (nodeIndex == 0) 
+	{
+		fprintf(stdout, "Jacobi MPI 1D -\n");
+		fflush(stdout);
+	}
+	if (nodeIndex == 0) 
+	{
+		fprintf(stdout, "--n=%d, e=%lf, step=%ld\n--LURD: %lf, %lf, %lf, %lf\n",
+							n, epsilon, step, b.left, b.up, b.right, b.down);
+		fflush(stdout);
+	}
 	//more paramenters
 	double			*m = (double *)malloc(sizeof(double) * n * n);
 	double			*w = (double *)malloc(sizeof(double) * n * n);
@@ -207,19 +234,39 @@ void jacobiMPI_1D(int n, double epsilon,
 	//jacobi serial 1D solution
 	if (epsilon != 0)
 	{
-		printf("--Epsilon mode\n");
+		if (nodeIndex == 0) 
+		{
+			fprintf(stdout, "--Epsilon mode\n");
+			fflush(stdout);
+		}
 		jacobiMPIIterationEpsilon_1D(n, epsilon, &step, 
 										b, m, w, &nTime1, &nTime2);
-		printf("--Step = %ld\n", step);
+		if (nodeIndex == 0) 
+		{
+			fprintf(stdout, "--Step = %ld\n", step);
+			fflush(stdout);
+		}
 	}
 	else 
 	{
-		printf("--Step mode\n");
-		jacobiMPIIterationStep_1D(n, &epsilon, step,
-										b, m, w, &nTime1, &nTime2);
-		printf("--Epsilon = %lf\n", epsilon);	
+		if (nodeIndex == 0) 
+		{
+			fprintf(stdout, "--Step mode\n");
+			fflush(stdout);
+		}
+		//jacobiMPIIterationStep_1D(n, &epsilon, step,
+		//								b, m, w, &nTime1, &nTime2);
+		if (nodeIndex == 0) 
+		{
+			fprintf(stdout, "--Epsilon = %lf\n", epsilon);
+			fflush(stdout);
+		}
 	}
-	printf("--Result outputing...");
+	if (nodeIndex == 0) 
+	{
+		fprintf(stdout, "--Result outputing...");
+		fflush(stdout);
+	}
 	char			*outDir = getOutDir(n, epsilon, b, step, outFile);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
@@ -229,12 +276,21 @@ void jacobiMPI_1D(int n, double epsilon,
 	QueryPerformanceCounter(&nStopCounter);
 	//get time
 	nTime3 = getCostTime(nStartCounter, nStopCounter);
-	printf("Done.\n");
+	if (nodeIndex == 0) 
+	{
+		fprintf(stdout, "Done.\n");
+		fflush(stdout);
+	}
 
-	printf("--(Time/s)Init=%lf, Computing=%lf, Data-saving=%lf, Total=%lf\n", 
-		nTime1, nTime2, nTime3, nTime1 + nTime2 + nTime3);
+	if (nodeIndex == 0) 
+	{
+		fprintf(stdout, "--(Time/s)Init=%lf, Computing=%lf, Data-saving=%lf, Total=%lf\n", 
+									nTime1, nTime2, nTime3, nTime1 + nTime2 + nTime3);
+		fflush(stdout);
+	}
 
 	outLog(n, epsilon, step, b, nTime1, nTime2, nTime3, outFile, outDir);
 
+	MPI_Finalize();
 	return;
 }

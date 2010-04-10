@@ -23,20 +23,19 @@ int main(int argc, char* argv[])
 
 	b.averageValue = (b.left + b.up + b.right + b.down) / 4;
 	
-	MPI_Init(&argc,&argv);
+	//MPI_Init(&argc,&argv);
 
 	//jacobi serial 1D
-	jacobiMPI_1D(n, epsilon, step, b, outFile);
+	jacobiMPI_1D(argc, argv, n, epsilon, step, b, outFile);
 
 	//jacobi serial 2D
 	//jacobiSerial_2D(n, epsilon, step, b, outFile);
 
-	MPI_Finalize();
+	//MPI_Finalize();
 
 	getchar();
 
 	return 0;
 }
 
-}
 
