@@ -27,7 +27,7 @@
 //inside-project .h file
 #include "public.h"
 #include "io.h"
-//#include "jacobiSerial_1D.h"
+#include "jacobiMPI_1D.h"
 //#include "jacobiSerial_2D.h"
 
 //********************************************************************************
@@ -46,4 +46,4 @@ struct boundary
 	double		right;
 	double		down;
 	double		averageValue;
-}
+};
