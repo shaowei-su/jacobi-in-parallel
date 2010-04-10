@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jacobiMPI", "jacobiMPI\jaco
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jacobiCUDA", "jacobiCUDA\jacobiCUDA.vcproj", "{B431C218-F121-4FB4-923B-2A198A356E05}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jacobiOMP", "jacobiOpenMP\jacobiOpenMP.vcproj", "{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -89,6 +91,26 @@ Global
 		{B431C218-F121-4FB4-923B-2A198A356E05}.Release|Win32.ActiveCfg = Release|x64
 		{B431C218-F121-4FB4-923B-2A198A356E05}.Release|x64.ActiveCfg = Release|x64
 		{B431C218-F121-4FB4-923B-2A198A356E05}.Release|x64.Build.0 = Release|x64
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.Debug|Win32.Build.0 = Debug|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.Debug|x64.ActiveCfg = Debug|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.EmuDebug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.EmuDebug|Mixed Platforms.Build.0 = Debug|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.EmuDebug|Win32.ActiveCfg = Debug|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.EmuDebug|Win32.Build.0 = Debug|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.EmuDebug|x64.ActiveCfg = Debug|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.EmuRelease|Mixed Platforms.ActiveCfg = Release|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.EmuRelease|Mixed Platforms.Build.0 = Release|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.EmuRelease|Win32.ActiveCfg = Release|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.EmuRelease|Win32.Build.0 = Release|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.EmuRelease|x64.ActiveCfg = Release|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.Release|Win32.ActiveCfg = Release|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.Release|Win32.Build.0 = Release|Win32
+		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
