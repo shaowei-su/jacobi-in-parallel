@@ -60,6 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="mpi.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -171,11 +172,19 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\2DHeatParallel_isend.cpp"
+				RelativePath=".\io.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\jacobiMPI_1D.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\jacobiMPIMain.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\public.cpp"
 				>
 			</File>
 			<File
@@ -188,6 +197,18 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\io.h"
+				>
+			</File>
+			<File
+				RelativePath=".\jacobiMPI_1D.h"
+				>
+			</File>
+			<File
+				RelativePath=".\public.h"
+				>
+			</File>
 			<File
 				RelativePath=".\stdafx.h"
 				>

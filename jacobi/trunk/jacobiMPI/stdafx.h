@@ -7,17 +7,43 @@
 
 #include "targetver.h"
 
-#include "mpi.h"
-
 #include <stdio.h>
 #include <tchar.h>
-
-#include <math.h>
-
-#include "windows.h"
-//#include "omp.h"
-
 
 
 
 // TODO: 在此处引用程序需要的其他头文件
+
+//********************************************************************************
+//user-added .h file
+#include <math.h>
+#include <malloc.h>
+#include <windows.h>
+#include <time.h>
+#include <direct.h>  
+#include <mpi.h>
+
+//********************************************************************************
+//inside-project .h file
+#include "public.h"
+#include "io.h"
+//#include "jacobiSerial_1D.h"
+//#include "jacobiSerial_2D.h"
+
+//********************************************************************************
+//constant variable
+#define DEFAULT_INPUT_FILE	"input.txt"		//default input .txt filename
+#define MUL					100000			//time accuracy control numer
+#define JUMP				100				//check epsilon every JUMP Iterations
+
+
+//********************************************************************************
+//structure define
+struct boundary
+{
+	double		left;
+	double		up;
+	double		right;
+	double		down;
+	double		averageValue;
+}

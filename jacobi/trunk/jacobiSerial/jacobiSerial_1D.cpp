@@ -3,8 +3,7 @@
 
 //********************************************************************************
 void matrix1DInit(const int n, const struct boundary b, double *m, double *w)
-{	
-	double average = (b.left + b.up + b.right + b.down) / 4.0;
+{
 	for(int i = 0; i < n - 1; i++)
 	{
 		m[i * n + n]			= w[i * n + n]			= b.left; 
@@ -14,7 +13,7 @@ void matrix1DInit(const int n, const struct boundary b, double *m, double *w)
 	}
 	for(int i = 1; i < n - 1; i++)
 		for(int j = 1; j < n - 1; j++)
-			m[i * n + j] = w[i * n + j] = average;
+			m[i * n + j] = w[i * n + j] = b.averageValue;
 	return;
 }
 
@@ -42,13 +41,13 @@ void jacobiSerialIterationEpsilon_1D(const int n, const double epsilon,
 	printf("--Computing(%d, %lf).....", n, epsilon);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
-	int				num = 0;
-	int				goal = (n - 2) * (n - 2);
+	int				count = 0;
+	int				countGoal = (n - 2) * (n - 2);
 	*step = 0;
-	while(num < goal)
+	while(count < countGoal)
 	{
 		(*step)++;
-		num = 0;
+		count = 0;
 		for(int i = 1;i < n - 1; i++)
 			for(int j = 1; j < n - 1; j++)
 			{
@@ -56,7 +55,7 @@ void jacobiSerialIterationEpsilon_1D(const int n, const double epsilon,
 								+ m[i * n + j - 1] + m[i * n + j + 1]) / 4.0;
 				if (*step % JUMP == 0)
 					if(fabs(w[i * n + j] - m[i * n + j]) < epsilon) 
-						num++;
+						count++;
 			}
 		temp = m; m = w; w = temp;
 	}
