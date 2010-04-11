@@ -163,12 +163,15 @@ void jacobiCUDAIterationEpsilon_1D(const int n, const double epsilon,
 		(*step)++;
 		//execute the kernel
 		kernelJacobiIteration<<<matrixInnerGrid, block>>>(n, d_m, d_w);
+		(*step)++;
+		//execute the kernel
+		kernelJacobiIteration<<<matrixInnerGrid, block>>>(n, d_w, d_m);
 		//check if kernel execution generated and error
 		//cutilCheckMsg("Kernel execution failed");
 		//epsilon
 		if (*step % JUMP == 0)
 			epsilonTemp = getEpsilon(n, d_m, d_w);
-		temp = d_m; d_m = d_w; d_w = temp;
+		//temp = d_m; d_m = d_w; d_w = temp;
     }
 	//timer ends
 	QueryPerformanceCounter(&nStopCounter);
@@ -317,7 +320,7 @@ void jacobiCUDA_1D(int argc, char** argv,
 	double			*m = (double *)malloc(sizeof(double) * n * n);
 	cutilSafeCall(cudaMemcpy(m, d_m, matrixMemSize, cudaMemcpyDeviceToHost));
 	//output result
-	outMatrix1DtoF(m, n, outDir);
+	//outMatrix1DtoF(m, n, outDir);
 	//timer2 ends
 	QueryPerformanceCounter(&nStopCounter);
 	//get time
