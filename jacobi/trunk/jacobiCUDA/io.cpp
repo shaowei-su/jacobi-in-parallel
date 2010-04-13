@@ -95,7 +95,7 @@ char* getOutDir(int n, double epsilon, struct boundary b,
 }
 
 //********************************************************************************
-//
+//matrix in double
 void outMatrix1DtoF(const double *m, const int n, const char *dir)
 {
 	char *filename = (char *)malloc(sizeof(char) * 256);
@@ -113,6 +113,32 @@ void outMatrix1DtoF(const double *m, const int n, const char *dir)
 		{
 			for(int j = 0; j < n; j++)			
 				fprintf(fp, "%lf ", m[i * n + j]);
+			fprintf(fp, "\n");
+		}
+		fclose(fp);
+	}
+	return;
+}
+
+//********************************************************************************
+//matrix in double
+void outMatrix1DtoF_F(const float *m, const int n, const char *dir)
+{
+	char *filename = (char *)malloc(sizeof(char) * 256);
+	sprintf(filename, "%s\\%s_m.txt", dir, dir);
+	
+	FILE *fp;
+	if((fp = fopen(filename, "at")) == NULL)
+	{
+        printf("cannot open %s \n", filename);
+		return;
+	}
+	else
+	{
+		for(int i = 0; i < n; i++)		
+		{
+			for(int j = 0; j < n; j++)			
+				fprintf(fp, "%f ", m[i * n + j]);
 			fprintf(fp, "\n");
 		}
 		fclose(fp);

@@ -26,6 +26,8 @@ char* getOutDir(int n, double epsilon, struct boundary b,
 
 void outMatrix1DtoF(const double *m, const int n, const char *dir);
 
+void outMatrix1DtoF_F(const float *m, const int n, const char *dir);
+
 
 void outMatrix2DtoF(double **m, const int n, const char *dir);
 
