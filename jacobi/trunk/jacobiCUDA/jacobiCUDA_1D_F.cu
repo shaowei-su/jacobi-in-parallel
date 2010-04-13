@@ -6,8 +6,8 @@
 
 //*****************************************************************************
 //init matrix non-boundarys
-__global__ void kernelInitMatrixInner(const int n, const double value,
-									  double *m, double *w)
+__global__ void kernelInitMatrixInner(const int n, const float value,
+									  float *m, float *w)
 {
 	int id = blockIdx.x * blockDim.x +threadIdx.x;
 	if (id < n * n)
@@ -20,7 +20,7 @@ __global__ void kernelInitMatrixInner(const int n, const double value,
 //*****************************************************************************
 //init matrix boundarys
 __global__ void kernelInitMatrixBoundary(const int n, const boundary b,
-										 double *m, double *w)
+										 float *m, float *w)
 {
 	int id = blockIdx.x * blockDim.x +threadIdx.x;
 	if (id < n - 1)
@@ -38,7 +38,7 @@ __global__ void kernelInitMatrixBoundary(const int n, const boundary b,
 
 //*****************************************************************************
 //init matrix
-void initMatrix(const int n, const struct boundary b, double *d_m, double *d_w)
+void initMatrix(const int n, const struct boundary b, float *d_m, float *d_w)
 {
 	int				blockSize = 256;
 	dim3			block(blockSize);
@@ -52,8 +52,8 @@ void initMatrix(const int n, const struct boundary b, double *d_m, double *d_w)
 }
 
 //*****************************************************************************
-//kernel of jacobi iteration process with double in iteration mode
-__global__ void kernelJacobiIteration(const int n, double *m, double *w)
+//kernel of jacobi iteration process with float in iteration mode
+__global__ void kernelJacobiIteration(const int n, float *m, float *w)
 {
 	int id = blockIdx.x * blockDim.x +threadIdx.x;
 	if (id < (n - 2) * (n - 2))
@@ -69,8 +69,8 @@ __global__ void kernelJacobiIteration(const int n, double *m, double *w)
 //*****************************************************************************
 //kernel of getting epsilon between d_m and d_w
 __global__ void kernelGetEpsilon(const int n, 
-								 double *m, double *w, 
-								 double *ep)
+								 float *m, float *w, 
+								 float *ep)
 {
 	int id = blockIdx.x * blockDim.x +threadIdx.x;
 	if (id < (n - 2) * (n - 2))
@@ -83,7 +83,7 @@ __global__ void kernelGetEpsilon(const int n,
 }
 
 //kernel of max of a num group
-__global__ void kernelGetMax(const int count, double *ep)
+__global__ void kernelGetMax(const int count, float *ep)
 {
 	int id = blockIdx.x * blockDim.x + threadIdx.x;
 	if (id < count)
@@ -92,12 +92,12 @@ __global__ void kernelGetMax(const int count, double *ep)
 
 //*****************************************************************************
 //get epsilon 
-double getEpsilon(const int n, double *d_m, double *d_w)
+float getEpsilon(const int n, float *d_m, float *d_w)
 {
-	double			epsilon;
-	double			*d_ep;
-    cutilSafeCall
-		(cudaMalloc((void**) &d_ep, (n - 2) * (n - 2) * sizeof(double)));
+	float			epsilon;
+	float			*d_ep;
+    /*cutilSafeCall*/
+		(cudaMalloc((void**) &d_ep, (n - 2) * (n - 2) * sizeof(float)));
 	// setup execution parameters	
 	int				blockSize = 256;
     dim3			block(blockSize);
@@ -116,12 +116,12 @@ double getEpsilon(const int n, double *d_m, double *d_w)
 		count = (count + 1) / 2;
 	}
 
-	double			lastD_ep;
-	cutilSafeCall(cudaMemcpy(&lastD_ep, d_ep + (n - 2) * (n - 2) - 1, 
-									sizeof(double), cudaMemcpyDeviceToHost));
-	cutilSafeCall
-		(cudaMemcpy(&epsilon, d_ep, sizeof(double), cudaMemcpyDeviceToHost));
-	cutilSafeCall(cudaFree(d_ep));
+	float			lastD_ep;
+	/*cutilSafeCall*/(cudaMemcpy(&lastD_ep, d_ep + (n - 2) * (n - 2) - 1, 
+									sizeof(float), cudaMemcpyDeviceToHost));
+	/*cutilSafeCall*/
+		(cudaMemcpy(&epsilon, d_ep, sizeof(float), cudaMemcpyDeviceToHost));
+	/*cutilSafeCall*/(cudaFree(d_ep));
 
 	if (epsilon < lastD_ep) epsilon = lastD_ep;
 
@@ -129,12 +129,12 @@ double getEpsilon(const int n, double *d_m, double *d_w)
 }
 
 //*****************************************************************************
-void jacobiCUDAIterationEpsilon_1D(const int n, const double epsilon, 
+void jacobiCUDAIterationEpsilon_1D_F(const int n, const float epsilon, 
 								   long *step, const struct boundary b, 
-								   double *d_m, double *d_w,
+								   float *d_m, float *d_w,
 								   double *initTime, double *iterTime)
 {
-	double			*temp;
+	float			*temp;
 	//timer
 	LARGE_INTEGER	nStartCounter, nStopCounter;	
 	//init data
@@ -152,7 +152,7 @@ void jacobiCUDAIterationEpsilon_1D(const int n, const double epsilon,
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
 	*step = 0;
-	double			epsilonTemp = epsilon + 1;
+	float			epsilonTemp = epsilon + 1;
 	// setup execution parameters	
 	int				blockSize = 256;
     dim3			block(blockSize);
@@ -165,15 +165,12 @@ void jacobiCUDAIterationEpsilon_1D(const int n, const double epsilon,
 		(*step)++;
 		//execute the kernel
 		kernelJacobiIteration<<<matrixInnerGrid, block>>>(n, d_m, d_w);
-		(*step)++;
-		//execute the kernel
-		kernelJacobiIteration<<<matrixInnerGrid, block>>>(n, d_w, d_m);
 		//check if kernel execution generated and error
 		//cutilCheckMsg("Kernel execution failed");
 		//epsilon
 		if (*step % JUMP == 0)
 			epsilonTemp = getEpsilon(n, d_m, d_w);
-		//temp = d_m; d_m = d_w; d_w = temp;
+		temp = d_m; d_m = d_w; d_w = temp;
     }
 	//timer ends
 	QueryPerformanceCounter(&nStopCounter);
@@ -183,18 +180,18 @@ void jacobiCUDAIterationEpsilon_1D(const int n, const double epsilon,
 }
 
 //********************************************************************************
-void jacobiCUDAIterationStep_1D(const int n, double *epsilon, 
+void jacobiCUDAIterationStep_1D_F(const int n, float *epsilon, 
 								const long step, const struct boundary b,
-								double *d_m, double *d_w,
+								float *d_m, float *d_w,
 								double *initTime, double *iterTime)
 {
 ////*****************************************************************************	
 //    unsigned int	matrixSize = n * n;
-//    unsigned int	matrixMemSize = sizeof(double) * matrixSize;
-//	double			*m = (double *)malloc(sizeof(double) * n * n);
+//    unsigned int	matrixMemSize = sizeof(float) * matrixSize;
+//	float			*m = (float *)malloc(sizeof(float) * n * n);
 ////*****************************************************************************
 
-	double			*temp;
+	float			*temp;
 	//timer
 	LARGE_INTEGER	nStartCounter, nStopCounter;	
 	//init data
@@ -271,9 +268,9 @@ void jacobiCUDAIterationStep_1D(const int n, double *epsilon,
 }
 
 //********************************************************************************
-void jacobiCUDA_1D(int argc, char** argv,
-				   int n, double epsilon, 
-				   long step, struct boundary b, char *outFile)
+void jacobiCUDA_1D_F(int argc, char** argv, 
+					 int n, float epsilon, 
+					 long step, struct boundary b, char *outFile)
 {
 	printf("Jacobi CUDA 1D -\n");
 	printf("--n=%d, e=%lf, step=%ld\n--LURD: %lf, %lf, %lf, %lf\n",
@@ -287,13 +284,13 @@ void jacobiCUDA_1D(int argc, char** argv,
 	
     //allocate devce memory for matrices u
     unsigned int	matrixSize = n * n;
-    unsigned int	matrixMemSize = sizeof(double) * matrixSize;
+    unsigned int	matrixMemSize = sizeof(float) * matrixSize;
 
-    double			*d_m;
+    float			*d_m;
 	cudaMalloc((void**) &d_m, matrixMemSize);
-    cutilSafeCall(cudaMalloc((void**) &d_m, matrixMemSize));
-    double			*d_w;
-    cutilSafeCall(cudaMalloc((void**) &d_w, matrixMemSize));
+    /*cutilSafeCall*/(cudaMalloc((void**) &d_m, matrixMemSize));
+    float			*d_w;
+    /*cutilSafeCall*/(cudaMalloc((void**) &d_w, matrixMemSize));
 
 	//timer
 	LARGE_INTEGER	nStartCounter, nStopCounter;
@@ -303,14 +300,14 @@ void jacobiCUDA_1D(int argc, char** argv,
 	if (epsilon != 0)
 	{
 		printf("--Epsilon mode\n");
-		jacobiCUDAIterationEpsilon_1D(n, epsilon, &step, 
+		jacobiCUDAIterationEpsilon_1D_F(n, epsilon, &step, 
 										b, d_m, d_w, &nTime1, &nTime2);
 		printf("--Step = %ld\n", step);
 	}
 	else 
 	{
 		printf("--Step mode\n");
-		jacobiCUDAIterationStep_1D(n, &epsilon, step,
+		jacobiCUDAIterationStep_1D_F(n, &epsilon, step,
 										b, d_m, d_w, &nTime1, &nTime2);
 		printf("--Epsilon = %lf\n", epsilon);	
 	}
@@ -319,10 +316,10 @@ void jacobiCUDA_1D(int argc, char** argv,
 	char			*outDir = getOutDir(n, epsilon, b, step, outFile);
 	//timer starts
 	QueryPerformanceCounter(&nStartCounter);
-	double			*m = (double *)malloc(sizeof(double) * n * n);
-	cutilSafeCall(cudaMemcpy(m, d_m, matrixMemSize, cudaMemcpyDeviceToHost));
+	float			*m = (float *)malloc(sizeof(float) * n * n);
+	/*cutilSafeCall*/(cudaMemcpy(m, d_m, matrixMemSize, cudaMemcpyDeviceToHost));
 	//output result
-	//outMatrix1DtoF(m, n, outDir);
+	outMatrix1DtoF_F(m, n, outDir);
 	//timer2 ends
 	QueryPerformanceCounter(&nStopCounter);
 	//get time

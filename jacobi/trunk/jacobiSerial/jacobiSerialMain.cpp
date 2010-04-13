@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 	//jacobi serial 2D
 	//jacobiSerial_2D(n, epsilon, step, b, outFile);
 
-	getchar();
+	//getchar();
 
 	return 0;
 }

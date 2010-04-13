@@ -21,10 +21,13 @@ int main(int argc, char** argv)
 
 	b.averageValue = (b.left + b.up + b.right + b.down) / 4;
 	
-	//jacobi serial 1D
-	jacobiCUDA_1D(argc, argv, n, epsilon, step, b, outFile);
+	//jacobi CUDA 1D
+	//jacobiCUDA_1D(argc, argv, n, epsilon, step, b, outFile);
 
-	//jacobi serial 2D
+	//jacobi CUDA 1D - Float
+	jacobiCUDA_1D_F(argc, argv, n, (float)epsilon, step, b, outFile);
+
+	//jacobi CUDA 2D
 	//jacobiCUDA_2D(n, epsilon, step, b, outFile);
 
 	//getchar();

@@ -26,7 +26,7 @@
 #include "public.h"
 #include "io.h"
 #include "jacobiCUDA_1D.h"
-//#include "jacobiSerial_2D.h"
+#include "jacobiCUDA_1D_F.h"
 
 //********************************************************************************
 //constant variable

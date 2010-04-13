@@ -88,7 +88,7 @@ Global
 		{B431C218-F121-4FB4-923B-2A198A356E05}.EmuRelease|x64.Build.0 = EmuRelease|x64
 		{B431C218-F121-4FB4-923B-2A198A356E05}.Release|Mixed Platforms.ActiveCfg = Release|x64
 		{B431C218-F121-4FB4-923B-2A198A356E05}.Release|Mixed Platforms.Build.0 = Release|x64
-		{B431C218-F121-4FB4-923B-2A198A356E05}.Release|Win32.ActiveCfg = Release|x64
+		{B431C218-F121-4FB4-923B-2A198A356E05}.Release|Win32.ActiveCfg = Release|Win32
 		{B431C218-F121-4FB4-923B-2A198A356E05}.Release|x64.ActiveCfg = Release|x64
 		{B431C218-F121-4FB4-923B-2A198A356E05}.Release|x64.Build.0 = Release|x64
 		{CD217AE9-3A83-4560-905D-E0CA63C2E3F6}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
